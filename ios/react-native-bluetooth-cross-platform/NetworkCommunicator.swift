@@ -14,8 +14,8 @@ public class NetworkCommunicator: TransportHandler, MessageEncoder, MessageDecod
   private let displayName: String = UIDevice.current.name
   private var type: User.PeerType = User.PeerType.OFFLINE
   
-  override open func initTransport(_ kind: String, inType: User.PeerType) {
-    super.initTransport(kind, inType: inType)
+  override open func initTransport(_ kind: String, inType: User.PeerType, appId: String) {
+    super.initTransport(kind, inType: inType, appId: appId)
     self.type = inType
     initTimer()
   }

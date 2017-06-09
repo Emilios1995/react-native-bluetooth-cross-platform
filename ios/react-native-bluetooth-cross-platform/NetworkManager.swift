@@ -4,41 +4,41 @@ import Underdark
 @objc(NetworkManager)
 public class NetworkManager: NetworkCommunicator, ReactNearby {
   fileprivate var type: User.PeerType = User.PeerType.OFFLINE
-
+  
   //  MARK: REACT NEARBY UTILITY PROTOCOOL
-  @objc public  func advertise(_ kind: String) -> Void {
+  @objc public  func advertise(_ kind: String, appId: String) -> Void {
     if self.type == .BROWSER {
       self.type = .ADVERTISER_BROWSER
-      self.initTransport("WIFI-BT", inType: .ADVERTISER_BROWSER)
+      self.initTransport("WIFI-BT", inType: .ADVERTISER_BROWSER, appId: appId)
     } else if self.type == .OFFLINE {
       self.type = .ADVERTISER
-      self.initTransport("WIFI-BT", inType: .ADVERTISER)
+      self.initTransport("WIFI-BT", inType: .ADVERTISER, appId: appId)
     }
   }
   
-  @objc public  func stopAdvertising() {
+  @objc public  func stopAdvertising(_ appId: String) {
     if self.type == .ADVERTISER_BROWSER {
       self.type = .BROWSER
-      self.initTransport("WIFI-BT", inType: .BROWSER)
+      self.initTransport("WIFI-BT", inType: .BROWSER, appId: appId)
       return
     }
     self.type = .OFFLINE
     self.stopTransport()
   }
-  @objc public  func browse(_ kind: String) -> Void {
+  @objc public  func browse(_ kind: String, appId: String) -> Void {
     if self.type == .ADVERTISER {
       self.type = .ADVERTISER_BROWSER
-      self.initTransport("WIFI-BT", inType: .ADVERTISER_BROWSER)
+      self.initTransport("WIFI-BT", inType: .ADVERTISER_BROWSER, appId: appId)
     } else if self.type == .OFFLINE {
       self.type = .BROWSER
-      self.initTransport("WIFI-BT", inType: .BROWSER)
+      self.initTransport("WIFI-BT", inType: .BROWSER, appId: appId)
     }
   }
   
-  @objc public  func stopBrowsing() {
+  @objc public  func stopBrowsing(_ appId: String) {
     if self.type == .ADVERTISER_BROWSER {
       self.type = .ADVERTISER
-      self.initTransport("WIFI-BT", inType: .ADVERTISER)
+      self.initTransport("WIFI-BT", inType: .ADVERTISER, appId: appId)
       return
     }
     self.type = .OFFLINE

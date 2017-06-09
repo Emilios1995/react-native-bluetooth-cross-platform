@@ -13,9 +13,9 @@ open class TransportHandler: RCTEventEmitter, UDTransportDelegate {
   internal var nearbyUsers = [User]()
   
   // MARK: START TRANSPORT
-  public func initTransport(_ kind: String, inType: User.PeerType) {
+  public func initTransport(_ kind: String, inType: User.PeerType, appId: String) {
     if !self.transportConfigured {
-      let appId: Int32 = 234235
+      let numAppId: Int32 = Int(appId)
       let queue = DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
       var buf : Int64 = 0;
       while buf == 0 {
@@ -36,7 +36,7 @@ open class TransportHandler: RCTEventEmitter, UDTransportDelegate {
         transportKinds.append(UDTransportKind.bluetooth.rawValue as AnyObject)
         transportKinds.append(UDTransportKind.wifi.rawValue as AnyObject)
       }
-      transport = UDUnderdark.configureTransport(withAppId: appId, nodeId: nodeId, queue: queue, kinds: transportKinds)
+      transport = UDUnderdark.configureTransport(withAppId: numAppId, nodeId: nodeId, queue: queue, kinds: transportKinds)
       transport?.delegate = self
       self.transportConfigured = true
     }
